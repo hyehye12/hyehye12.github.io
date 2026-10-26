@@ -97,6 +97,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'jetson-rps-game', index: '07', title: 'Vision RPS Game',
+    videos: [{ label: 'RPC Game 시연', src: '/videos/rcp_game_project.mp4' }],
     subtitle: '카메라로 손동작을 인식하는 가위바위보 게임',
     summary: 'Jetson에서 TensorRT 추론부터 승패 판정과 PyQt5 게임 화면까지 구현',
     description: '카메라 영상의 손동작을 가위·바위·보로 인식하는 Jetson Orin Nano 게임입니다. YOLO 모델의 TensorRT 추론을 연결하고, 영상 전처리와 검출 결과 후처리, 승패 판정, 게임 화면을 구현했습니다. 컴퓨터와 대결하는 싱글 모드와 화면 좌우의 두 사람이 대결하는 멀티 모드를 제공합니다.',
