@@ -53,6 +53,31 @@ export const projects: Project[] = [
     features: ['PASS / FAIL / MISSING 상태를 확인하는 검사 결과 화면 구성', 'SQLite를 이용한 검사 이력 저장·조회', '검사 결과와 결함 정보를 확인하는 UI 구성']
   },
   {
+    slug: 'fpga-microwave-controller',
+    index: '10',
+    title: 'FPGA Microwave Controller',
+    subtitle: 'Verilog 기반 전자레인지 통합 제어',
+    summary: 'Basys 3에서 로터리 시간 설정, 카운트다운, 문 개폐와 모터·부저·FND 제어 구현',
+    description: '전자레인지의 조작과 제어 흐름을 Verilog HDL로 구현한 프로젝트입니다. 로터리로 0~9999초를 설정하고 시작·일시정지·취소에 따라 카운트다운과 모터를 제어합니다. 서보로 문 개폐를 구현하고, 문이 열린 상태에서는 시작을 차단합니다. 조리 완료 시 FND 깜빡임과 부저 알림을 3회 동기화했습니다.',
+    category: 'FPGA / Verilog HDL',
+    tags: ['Verilog', 'FPGA', 'Basys 3', 'PWM', 'Rotary Encoder', 'Servo', 'FND'],
+    fallback: 'fan',
+    github: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller',
+    role: '전체 구현',
+    features: [
+      '입력 동기화·디바운싱과 로터리 방향 판별로 1초 단위 시간 설정',
+      '1ms tick 기반 카운트다운과 일시정지·재개·취소 제어',
+      '문 상태 저장과 서보 PWM 제어, 문 열림 시 조리 정지 및 시작 차단',
+      '조리 상태에 따른 DC 모터 구동과 FND·부저 완료 알림 3회 동기화',
+      '테스트벤치로 시작·일시정지·재개·자연 종료 시나리오 확인'
+    ],
+    resources: [
+      { label: '시계·스톱워치 소스', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller' },
+      { label: '시연 영상', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller/blob/main/media/demo.mp4' },
+      { label: '발표 자료', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller/blob/main/docs/fpga-microwave-controller.pptx' }
+    ]
+  },
+  {
     slug: 'fpga-clock', index: '04', title: 'FPGA Digital Clock',
     subtitle: 'Basys 3 기반 분·초 시계와 스톱워치',
     summary: '4자리 FND에 표시하는 분·초 시계와 10ms 단위 스톱워치',
