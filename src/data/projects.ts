@@ -54,7 +54,8 @@ export const projects: Project[] = [
   },
   {
     slug: 'fpga-microwave-controller',
-    index: '10',
+    index: '04',
+    videos: [{ label: 'micor_wave_controller_시연', src: '/videos/micor_wave_FPGA_project.mp4' }],
     title: 'FPGA Microwave Controller',
     subtitle: 'Verilog 기반 전자레인지 통합 제어',
     summary: 'Basys 3에서 로터리 시간 설정, 카운트다운, 문 개폐와 모터·부저·FND 제어 구현',
@@ -72,13 +73,13 @@ export const projects: Project[] = [
       '테스트벤치로 시작·일시정지·재개·자연 종료 시나리오 확인'
     ],
     resources: [
-      { label: '시계·스톱워치 소스', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller' },
+      { label: 'micro_wave 소스', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller' },
       { label: '시연 영상', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller/blob/main/media/demo.mp4' },
       { label: '발표 자료', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller/blob/main/docs/fpga-microwave-controller.pptx' }
     ]
   },
   {
-    slug: 'fpga-clock', index: '04', title: 'FPGA Digital Clock',
+    slug: 'fpga-clock', index: '10', title: 'FPGA Digital Clock',
     subtitle: 'Basys 3 기반 분·초 시계와 스톱워치',
     summary: '4자리 FND에 표시하는 분·초 시계와 10ms 단위 스톱워치',
     description: 'Basys 3 보드에서 Verilog로 분·초 시계와 스톱워치를 구현했습니다. 버튼으로 모드를 전환하고 스톱워치를 일시정지하거나 초기화할 수 있습니다. 시계는 스톱워치 모드에서도 계속 동작하며, 일시정지 상태에서 3초 동안 입력이 없으면 FND 세그먼트 애니메이션을 표시합니다.',
