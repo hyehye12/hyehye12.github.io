@@ -52,32 +52,25 @@ export const projects: Project[] = [
     role: 'UI·UX · DB',
     features: ['PASS / FAIL / MISSING 상태를 확인하는 검사 결과 화면 구성', 'SQLite를 이용한 검사 이력 저장·조회', '검사 결과와 결함 정보를 확인하는 UI 구성']
   },
-  {
-    slug: 'fpga-microwave-controller',
-    index: '04',
-    videos: [{ label: 'micor_wave_controller_시연', src: '/videos/micor_wave_FPGA_project.mp4' }],
-    title: 'FPGA Microwave Controller',
-    subtitle: 'Verilog 기반 전자레인지 통합 제어',
-    summary: 'Basys 3에서 로터리 시간 설정, 카운트다운, 문 개폐와 모터·부저·FND 제어 구현',
-    description: '전자레인지의 조작과 제어 흐름을 Verilog HDL로 구현한 프로젝트입니다. 로터리로 0~9999초를 설정하고 시작·일시정지·취소에 따라 카운트다운과 모터를 제어합니다. 서보로 문 개폐를 구현하고, 문이 열린 상태에서는 시작을 차단합니다. 조리 완료 시 FND 깜빡임과 부저 알림을 3회 동기화했습니다.',
-    category: 'FPGA / Verilog HDL',
-    tags: ['Verilog', 'FPGA', 'Basys 3', 'PWM', 'Rotary Encoder', 'Servo', 'FND'],
-    fallback: 'fan',
-    github: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller',
-    role: '전체 구현',
-    features: [
-      '입력 동기화·디바운싱과 로터리 방향 판별로 1초 단위 시간 설정',
-      '1ms tick 기반 카운트다운과 일시정지·재개·취소 제어',
-      '문 상태 저장과 서보 PWM 제어, 문 열림 시 조리 정지 및 시작 차단',
-      '조리 상태에 따른 DC 모터 구동과 FND·부저 완료 알림 3회 동기화',
-      '테스트벤치로 시작·일시정지·재개·자연 종료 시나리오 확인'
+{
+  slug: 'basys3-i2c-sensor-monitor', index: '04', title: 'Basys3 I2C Sensor Monitor',
+  videos: [
+      { label: 'basys3-i2c-sensor-monitor 시연 영상', src: '/videos/basys3-i2c-sensor-monitor.mp4' },
     ],
-    resources: [
-      { label: 'micro_wave 소스', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller' },
-      { label: '시연 영상', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller/blob/main/media/demo.mp4' },
-      { label: '발표 자료', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller/blob/main/docs/fpga-microwave-controller.pptx' }
-    ]
-  },
+  subtitle: '두 FPGA 보드를 이용한 온습도·거리 모니터',
+  summary: '슬레이브 FPGA의 센서 측정과 I2C·UART 전송, Qt 모니터 구현',
+  description: '두 대의 Basys3 보드로 온도·습도·거리를 측정하고 표시하는 팀 프로젝트입니다. 슬레이브 보드를 담당해 DHT11과 HC-SR04의 신호를 Verilog로 처리하고, 마스터 보드가 I2C로 측정값을 읽을 수 있도록 구현했습니다. PC에서는 Qt 모니터로 UART 데이터를 받아 측정값과 센서별 오류를 확인할 수 있습니다.',
+  category: 'FPGA / RTL', tags: ['Verilog', 'Basys3', 'I2C', 'UART', 'Qt', 'C++'],
+  fallback: 'fpga', github: 'https://github.com/AI-System-Semiconductor-SW-Develop/Basys3-I2C-Sensor-Monitor',
+  role: '슬레이브 RTL 설계 · 센서 연동 · Qt 모니터 · 통합 테스트벤치',
+  features: [
+    'DHT11 체크섬과 초음파 응답 시간을 검사하고, 센서별 정상 여부를 상태 헤더에 기록',
+    '측정값과 상태를 I2C 6바이트로 제공하고, UART로는 1초마다 Qt 모니터에 전송',
+    '가상 센서 입력을 이용해 I2C와 UART의 실제 출력 바이트를 비교하는 테스트벤치 작성',
+    '초음파 거리 계산을 순차 연산으로 변경해 100MHz에서 WNS를 −1.555ns에서 +2.472ns로 개선'
+  ],
+  repositoryNote: '저장소에는 제가 구현한 슬레이브 RTL, 테스트벤치, Qt 모니터와 팀 발표자료·시연 영상이 포함되어 있습니다. 마스터 보드의 I2C 제어와 OLED 출력은 팀원이 담당했습니다.'
+},
   {
     slug: 'fpga-clock', index: '10', title: 'FPGA Digital Clock',
     subtitle: 'Basys 3 기반 분·초 시계와 스톱워치',
