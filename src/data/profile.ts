@@ -1,9 +1,9 @@
 export const profile = {
-  name: "곽혜민",
-  birthDate: "99.02.06",
-  location: "서울시 강남구",
+  name: "",
+  birthDate: "",
+  location: "",
   phone: "",
-  email: "gtg1349@gmail.com",
-  education: "고려대(세종) 한국학과 졸업",
+  email: "",
+  education: "",
   introduction: "",
 };
