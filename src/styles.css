@@ -274,3 +274,23 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offs
 .projects-toggle span{color:var(--accent,#a184e8);font-size:21px;line-height:1}
 .projects-toggle:focus-visible{outline:2px solid var(--accent,#a184e8);outline-offset:6px}
 .other-projects-heading{margin:40px 0 24px;font-size:18px;font-weight:400;color:#111}
+/* ── 문제 해결 · 구성도 · 기간 · 연락처 버튼 (추가) ── */
+.solving-list{display:grid;gap:18px}
+.solving-item{border:1px solid #e8e8e8;border-radius:9px;padding:24px 26px}
+.solving-kind{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--accent,#a184e8);border:1px solid currentColor;border-radius:999px;padding:4px 10px}
+.solving-issue .solving-kind{background:var(--accent,#a184e8);border-color:var(--accent,#a184e8);color:#ffffff}
+.solving-item h3{font-size:16px;font-weight:600;letter-spacing:-.03em;line-height:1.5;margin:14px 0 16px}
+.solving-item dl{display:grid;grid-template-columns:38px 1fr;gap:10px 16px;margin:0}
+.solving-item dt{font-size:12px;font-weight:600;color:#111111;line-height:2.1}
+.solving-item dd{margin:0;font-size:14px;line-height:1.85;color:#111111}
+.diagram-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.diagram-grid figure{margin:0}
+.diagram-grid img{display:block;width:100%;height:auto;border:1px solid #e8e8e8;border-radius:6px}
+.diagram-grid figcaption{font-size:12px;color:#111111;margin-top:10px}
+.timeline-period{margin-left:10px;font-weight:500;letter-spacing:0;color:#666666}
+.contact-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:0 12px}
+@media (max-width:700px){
+.solving-item{padding:20px 18px}
+.solving-item dl{grid-template-columns:1fr;gap:2px}
+.solving-item dd{margin-bottom:10px}
+}

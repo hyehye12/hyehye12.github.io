@@ -1,8 +1,9 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Cpu, ExternalLink, Github, GraduationCap, Layers3, Mail, MapPin, Menu, Monitor, Phone, UserRound, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Cpu, ExternalLink, FileText, Github, GraduationCap, Layers3, Mail, MapPin, Menu, Monitor, Phone, UserRound, X } from 'lucide-react';
 import { projects, type Project } from './data/projects';
 import { profile } from './data/profile';
+import { contact, education, experience, type TimelineItem } from './data/site';
 import HeroIntro from './HeroIntro';
 
 const userGitHub = 'https://github.com/hyehye12';
@@ -86,7 +87,7 @@ function AboutMe() {
   </section>;
 }
 
-const featuredSlugs = ['avr-auto-car', 'smart-fan', 'fpga-clock', 'jetson-rps-game'];
+const featuredSlugs = ['avr-auto-car', 'basys3-i2c-sensor-monitor', 'jetson-rps-game', 'smart-fan'];
 const featuredProjects = featuredSlugs.flatMap(slug => projects.filter(project => project.slug === slug));
 const otherProjects = projects.filter(project => !featuredSlugs.includes(project.slug));
 
@@ -134,13 +135,53 @@ function Home() {
     <section className="section journey-section" id="journey"><div className="page-width">
       <div className="section-heading"><div><div className="section-label">03 / BACKGROUND</div><h2>Learning <span>Journey.</span></h2><p>교육에서 프로젝트, 실제 개발 경험으로 이어온 과정입니다.</p></div></div>
       <div className="journey-grid">
-        <div className="journey-panel"><div className="panel-top"><span>EDUCATION</span><span>01</span></div><div className="timeline"><div className="timeline-row"><div className="timeline-marker"/><div><div className="timeline-eyebrow">IN PROGRESS</div><h3>시스템반도체 SW 개발자 양성과정 2기</h3><p>서울상공회의소 · 임베디드 SW, STM32, FPGA 및 Linux 학습</p></div></div><div className="timeline-row"><div className="timeline-marker"/><div><div className="timeline-eyebrow">COMPLETED</div><h3>프론트엔드 웹서비스 개발자 양성과정</h3><p>웹 개발 및 팀 프로젝트 수행</p></div></div></div></div>
-        <div className="journey-panel"><div className="panel-top"><span>EXPERIENCE & AWARDS</span><span>02</span></div><div className="timeline"><div className="timeline-row"><div className="timeline-marker"/><div><div className="timeline-eyebrow">AWARD</div><h3>팀 프로젝트 우수상</h3><p>웹서비스 개발 교육과정 내 팀 프로젝트 수상</p></div></div><div className="timeline-row"><div className="timeline-marker"/><div><div className="timeline-eyebrow">INTERNSHIP · 2 MONTHS</div><h3>웹서비스 개발 인턴십</h3><p>웹 개발 실무 및 팀 협업 경험</p></div></div></div></div>
+        <div className="journey-panel"><div className="panel-top"><span>EDUCATION</span><span>01</span></div><Timeline items={education} /></div>
+        <div className="journey-panel"><div className="panel-top"><span>EXPERIENCE & AWARDS</span><span>02</span></div><Timeline items={experience} /></div>
       </div>
     </div></section>
 
-    <section className="contact-section" id="contact"><div className="page-width contact-inner"><div className="section-label">04 / GET IN TOUCH</div><h2>함께 만들어갈<span>기회를 찾고 있습니다.</span></h2><p>프로젝트 구현 과정과 소스코드는 GitHub에서 확인할 수 있습니다.</p><a className="contact-btn" href={userGitHub} target="_blank" rel="noreferrer"><Github size={20}/> GitHub 방문하기 <ArrowUpRight size={18}/></a></div></section>
+    <section className="contact-section" id="contact"><div className="page-width contact-inner"><div className="section-label">04 / GET IN TOUCH</div><h2>함께 만들어갈<span>기회를 찾고 있습니다.</span></h2><p>프로젝트 구현 과정과 소스코드는 GitHub에서 확인할 수 있습니다.</p><div className="contact-actions">
+      <a className="contact-btn" href={userGitHub} target="_blank" rel="noreferrer"><Github size={20}/> GitHub 방문하기 <ArrowUpRight size={18}/></a>
+      {contact.email.trim() && <a className="contact-btn" href={`mailto:${contact.email}`}><Mail size={20}/> {contact.email}</a>}
+      {contact.resumeUrl.trim() && <a className="contact-btn" href={contact.resumeUrl} target="_blank" rel="noreferrer"><FileText size={20}/> 이력서 PDF <ArrowUpRight size={18}/></a>}
+      {contact.techDocUrl.trim() && <a className="contact-btn" href={contact.techDocUrl} target="_blank" rel="noreferrer"><FileText size={20}/> 프로젝트 기술서 PDF <ArrowUpRight size={18}/></a>}
+    </div></div></section>
   </main>;
+}
+
+function Timeline({ items }: { items: TimelineItem[] }) {
+  return <div className="timeline">{items.map(item => <div className="timeline-row" key={item.title}>
+    <div className="timeline-marker"/>
+    <div><div className="timeline-eyebrow">{item.eyebrow}{item.period.trim() && <span className="timeline-period">{item.period}</span>}</div><h3>{item.title}</h3><p>{item.description}</p></div>
+  </div>)}</div>;
+}
+
+const solvingKind = { issue: '문제 해결', design: '설계 고려' } as const;
+
+function SolvingList({ project }: { project: Project }) {
+  if (!project.solving?.length) return null;
+  return <section className="detail-group"><div className="section-label">PROBLEM SOLVING</div><h2>문제 해결 및 설계 고려</h2>
+    <div className="solving-list">{project.solving.map(item => <article className={`solving-item solving-${item.kind}`} key={item.title}>
+      <span className="solving-kind">{solvingKind[item.kind]}</span>
+      <h3>{item.title}</h3>
+      <dl>
+        <dt>{item.kind === 'issue' ? '문제' : '상황'}</dt><dd>{item.problem}</dd>
+        {item.cause && <><dt>원인</dt><dd>{item.cause}</dd></>}
+        <dt>{item.kind === 'issue' ? '해결' : '대응'}</dt><dd>{item.solution}</dd>
+        {item.result && <><dt>결과</dt><dd>{item.result}</dd></>}
+      </dl>
+    </article>)}</div>
+  </section>;
+}
+
+function DiagramList({ project }: { project: Project }) {
+  if (!project.diagrams?.length) return null;
+  return <section className="detail-group"><div className="section-label">DIAGRAMS</div><h2>구성도</h2>
+    <div className="diagram-grid">{project.diagrams.map(diagram => <figure key={diagram.src}>
+      <a href={diagram.src} target="_blank" rel="noreferrer"><img src={diagram.src} alt={diagram.label} loading="lazy" /></a>
+      <figcaption>{diagram.label}</figcaption>
+    </figure>)}</div>
+  </section>;
 }
 
 function SkillBox({n,title,items}:{n:string;title:string;items:string[]}) {return <div className="skill-box"><div className="skill-title"><span>{n}</span><h3>{title}</h3></div><div className="tag-list">{items.map(item=><span className="tag" key={item}>{item}</span>)}</div></div>}
@@ -156,10 +197,12 @@ function ProjectDetail() {
     <Link to="/#projects" className="back-link"><ArrowLeft size={17}/> 모든 프로젝트</Link>
     <div className="detail-heading"><div className="section-label">PROJECT {project.index} <span className="eyebrow-divider">/</span> {project.category}</div><h1>{project.title}</h1><p>{project.subtitle}</p><div className="detail-chips">{project.tags.map(tag=><span className="tag" key={tag}>{tag}</span>)}</div></div>
     <ImagePanel project={project} detail />
-    <div className="detail-layout"><aside className="detail-aside"><div className="aside-block"><span>PROJECT TYPE</span><b>{project.category}</b></div><div className="aside-block"><span>MY ROLE</span><b>{project.role}</b></div><div className="aside-block"><span>TECHNOLOGIES</span><div className="tag-list">{project.tags.map(t=><span className="tag" key={t}>{t}</span>)}</div></div>{project.github && <a className="detail-github" href={project.github} target="_blank" rel="noreferrer"><Github size={18}/> 프로젝트 저장소 <ArrowUpRight size={17}/></a>}</aside>
+    <div className="detail-layout"><aside className="detail-aside"><div className="aside-block"><span>PROJECT TYPE</span><b>{project.category}</b></div><div className="aside-block"><span>MY ROLE</span><b>{project.role}</b></div><div className="aside-block"><span>TECHNOLOGIES</span><div className="tag-list">{project.tags.map(t=><span className="tag" key={t}>{t}</span>)}</div></div>{project.period?.trim() && <div className="aside-block"><span>PERIOD</span><b>{project.period}</b></div>}{project.team?.trim() && <div className="aside-block"><span>TEAM</span><b>{project.team}</b></div>}{project.github && <a className="detail-github" href={project.github} target="_blank" rel="noreferrer"><Github size={18}/> 프로젝트 저장소 <ArrowUpRight size={17}/></a>}</aside>
       <div className="detail-body">
         <section className="detail-group"><div className="section-label">OVERVIEW</div><h2>프로젝트 소개</h2><p>{project.description}</p></section>
         <section className="detail-group"><div className="section-label">MY CONTRIBUTION</div><h2>담당 업무</h2><ul className="feature-list">{project.features.map((feature,index)=><li key={feature}><span>{String(index+1).padStart(2,'0')}</span>{feature}</li>)}</ul></section>
+        <DiagramList project={project} />
+        <SolvingList project={project} />
         {project.repositoryNote && <section className="detail-group"><div className="section-label">REPOSITORY</div><h2>저장소 안내</h2><p>{project.repositoryNote}</p></section>}
         {project.resources && <section className="detail-group"><div className="section-label">RESOURCES</div><h2>프로젝트 자료</h2><div className="project-resources">{project.resources.map(resource => <a className="detail-github" key={resource.url} href={resource.url} target="_blank" rel="noreferrer">{resource.label}<ArrowUpRight size={17}/></a>)}</div></section>}
       </div>
