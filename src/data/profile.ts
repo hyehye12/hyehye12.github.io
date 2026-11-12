@@ -1,9 +1,9 @@
 export const profile = {
-  name: "",
+  name: "곽혜민",
   birthDate: "",
-  location: "",
+  location: "서울특별시 강남구",
   phone: "",
-  email: "",
+  email: "gtg1349@gmail.com",
   education: "",
   introduction: "",
 };
