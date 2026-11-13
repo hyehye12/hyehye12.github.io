@@ -1,6 +1,6 @@
 import { motion, useReducedMotion, type Variants } from 'motion/react';
 import { useSyncExternalStore } from 'react';
-import { ArrowUpRight, Github } from 'lucide-react';
+import { ArrowUpRight, FileText, Github } from 'lucide-react';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const mobileQuery = '(max-width: 700px)';
@@ -48,6 +48,7 @@ export default function HeroIntro({ github }: { github: string }) {
       }}>
         <button className="btn-primary" onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: reduceMotion ? 'instant' : 'smooth' })}>프로젝트 살펴보기 <ArrowUpRight size={17}/></button>
         <a className="btn-plain" href={github} target="_blank" rel="noreferrer"><Github size={19}/> GitHub <ArrowUpRight size={15}/></a>
+        <a className="btn-plain" href="/project-description.pdf" target="_blank" rel="noreferrer"><FileText size={19}/> 프로젝트 기술서 <ArrowUpRight size={15}/></a>
       </motion.div>
     </div>
   </section>;

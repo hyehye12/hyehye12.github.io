@@ -288,7 +288,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offs
 .diagram-grid img{display:block;width:100%;height:auto;border:1px solid #e8e8e8;border-radius:6px}
 .diagram-grid figcaption{font-size:12px;color:#111111;margin-top:10px}
 .timeline-period{margin-left:10px;font-weight:500;letter-spacing:0;color:#666666}
-.contact-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:0 12px}
+.contact-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:0 30px}
 @media (max-width:700px){
 .solving-item{padding:20px 18px}
 .solving-item dl{grid-template-columns:1fr;gap:2px}

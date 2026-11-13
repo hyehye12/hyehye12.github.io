@@ -66,8 +66,6 @@ export const projects: Project[] = [
     repositoryNote: '링크는 팀 프로젝트 저장소입니다. 모터 커널 드라이버와 엔코더 코드는 다른 팀원이 작성한 코드로, 제가 작성한 코드는 아닙니다.'
   },
   {
-    // TODO: 가장 내용이 얇은 프로젝트입니다. STM32↔Qt 통신 방식(UART/CAN 등), 화면에 표시한 데이터 종류,
-    // 화면 구성 이유를 features와 solving에 직접 채워 주세요.
     slug: 'vehicle', index: '02', title: 'Vehicle Control System',
     subtitle: 'STM32 × Qt 차량 전장 모니터링',
     summary: '차량 조작과 상태 확인을 위한 Qt 사용자 화면 담당',
@@ -121,7 +119,7 @@ export const projects: Project[] = [
       '가상 센서 입력을 이용해 I2C와 UART의 실제 출력 바이트를 비교하는 테스트벤치 작성',
       '초음파 거리 계산을 순차 연산으로 변경해 100MHz에서 WNS를 −1.555ns에서 +2.472ns로 개선'
     ],
-    diagrams: [{ label: '시스템 구성도', src: '/images/basys3-i2c-system.png' }],
+    diagrams: [{ label: '시스템 구성도', src: '/images/basys3-i2c-system.png' } ,{ label: '테스트벤치', src: '/images/sensor_monitor_testbench.png' }],
     solving: [
       {
         // TODO: 원인 문장은 타이밍 리포트의 실제 critical path에 맞게 확인 후 수정해 주세요.
@@ -151,10 +149,10 @@ export const projects: Project[] = [
     description: '블루투스로 조종하거나 초음파 센서로 장애물을 피하며 주행하는 RC카입니다. ATmega128A에서 모터 PWM, UART 명령 수신, 세 방향 거리 측정과 FND 표시를 구현했습니다. 자동 주행에서는 전방 거리에 따라 정지·후진·전진을 결정하고, 좌우 거리를 비교해 회전 방향을 선택합니다.',
     category: 'AVR / MOTOR CONTROL', tags: ['C', 'ATmega128A', 'UART', 'PWM', '초음파 센서', 'FND'],
     fallback: 'vehicle', github: 'https://github.com/AI-System-Semiconductor-SW-Develop/avr-projects/tree/main/auto-car',
-    role: '전체 구현',
+    role: '2인팀(전체 구현)',
     period: '', team: '',
     features: ['UART1 블루투스 명령을 받아 전진·후진·좌우 회전·정지 처리', '초음파 Echo 인터럽트와 Timer3를 이용한 거리 측정 및 타임아웃 처리', '전방·좌우 거리에 따른 장애물 회피와 수동·자동 모드 전환 구현', 'Timer1 PWM으로 모터를 구동하고 FND에 주행 시간과 기록 표시', '모터와 FND가 공유하는 PORTF의 비트를 보존하도록 출력 처리'],
-    diagrams: [{label:"회로도",src:"/images/auto_car_회로도.png"}],
+    diagrams: [{label:"회로도",src:"/images/auto_car.png"}],
     solving: [
       {
         kind: 'design', title: '모터 방향과 FND가 함께 쓰는 PORTF',
@@ -217,7 +215,7 @@ export const projects: Project[] = [
     description: 'STM32에서 버튼으로 회전 방향을 바꾸고 UART 명령으로 PWM 속도를 조절하는 모터 제어 프로젝트입니다. 정지·정회전·역회전·전환 대기 상태를 나누고, 방향을 바꾸기 전에 잠시 정지하도록 구성했습니다. 인터럽트에서는 이벤트를 기록하고 메인 루프에서 모터 동작을 처리합니다.',
     category: 'STM32 / MOTOR CONTROL', tags: ['C', 'STM32', 'FSM', 'PWM', 'UART', 'Interrupt'],
     fallback: 'fan', github: 'https://github.com/AI-System-Semiconductor-SW-Develop/motor_control_mini_project',
-    role: '전체 구현',
+    role: '3인 팀 (각자 구현 후 비교·통합)',
     period: '', team: '',
     features: ['STOP·CW·CCW·SHORT_STOP 상태로 모터 제어 흐름 구성', '버튼 외부 인터럽트와 타이머를 이용한 방향 전환 및 길게 누르기 정지 처리', 'UART 숫자 명령을 PWM 속도 단계에 연결', '방향 전환 대기 시간을 타이머로 처리하고 메인 루프에서 다음 상태 적용'],
     solving: [
@@ -250,24 +248,41 @@ export const projects: Project[] = [
         kind: 'design', title: 'PWM 데이터 앞에 불필요한 펄스가 붙지 않게 하기',
         problem: 'TIM2를 DMA보다 먼저 시작하면 DMA 설정이 끝날 때까지 초기 CCR 값이 출력되어 데이터 앞에 불필요한 구간이 생길 수 있습니다.',
         solution: '버퍼 생성 → TIM2 설정 → DMA 설정·활성화 → TIM2 시작 순서로 맞추고, DMA 완료 인터럽트에서 TIM2를 멈춘 뒤 핀을 GPIO Low로 바꿔 리셋 구간을 시작했습니다.'
+      },
+      {
+        kind: 'issue', title: '길게 눌러 정지한 뒤 버튼을 떼면 다시 회전하는 문제',
+        problem: '버튼을 3초 이상 누르면 모터가 정지하지만, 손을 떼는 순간 다시 회전을 시작했습니다.',
+        cause: '버튼을 떼는 Rising 엣지를 항상 "짧은 누름"으로 처리했습니다. 3초 만료로 이미 STOP이 된 상태에서 뗌 이벤트가 들어와 STOP → CW 전환이 한 번 더 실행됐습니다.',
+        solution: '3초 타이머가 동작 중인지 나타내는 플래그를 두고, 타이머가 만료되면 플래그를 내린 뒤 정지하도록 했습니다. 뗌 이벤트는 플래그가 켜져 있을 때만 방향 전환으로 처리하고, 메인 루프에서 만료를 뗌보다 먼저 확인합니다.',
+        result: '길게 누른 뒤 손을 떼도 정지 상태가 유지되고, 3초 안에 뗀 경우에만 방향이 바뀝니다.'
       }
     ]
   },
   {
-    slug: 'fpga-clock', index: '10', title: 'FPGA Digital Clock',
-    subtitle: 'Basys 3 기반 분·초 시계와 스톱워치',
-    summary: '4자리 FND에 표시하는 분·초 시계와 10ms 단위 스톱워치',
-    description: 'Basys 3 보드에서 Verilog로 분·초 시계와 스톱워치를 구현했습니다. 버튼으로 모드를 전환하고 스톱워치를 일시정지하거나 초기화할 수 있습니다. 시계는 스톱워치 모드에서도 계속 동작하며, 일시정지 상태에서 3초 동안 입력이 없으면 FND 세그먼트 애니메이션을 표시합니다.',
-    category: 'FPGA / DIGITAL LOGIC', tags: ['Verilog HDL', 'Basys 3', 'FSM', 'Vivado'],
-    image: 'https://raw.githubusercontent.com/AI-System-Semiconductor-SW-Develop/FPGA-Verilog-Projects/main/minsec_stopwatch_project/media/demo.gif',
-    github: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Verilog-Projects',
-    fallback: 'fpga', role: 'Verilog 로직 구현 · 시뮬레이션',
-    period: '', team: '',
-    features: ['100MHz 입력 클럭을 이용한 분·초 카운터와 10ms 단위 스톱워치 구현', '시계·스톱워치·일시정지·초기화 상태를 FSM으로 제어', '버튼 디바운싱과 4자리 FND 다중화 출력 구현', '일시정지 후 3초 무입력 시 세그먼트 애니메이션 표시', '테스트벤치로 버튼 입력과 상태 전환 파형 확인'],
+    slug: 'fpga-microwave-controller',
+    index: '10',
+    videos: [{ label: 'micor_wave_controller_시연', src: '/videos/micor_wave_FPGA_project.mp4' }],
+    title: 'FPGA Microwave Controller',
+    subtitle: 'Verilog 기반 전자레인지 통합 제어',
+    summary: 'Basys 3에서 로터리 시간 설정, 카운트다운, 문 개폐와 모터·부저·FND 제어 구현',
+    description: '전자레인지의 조작과 제어 흐름을 Verilog HDL로 구현한 프로젝트입니다. 로터리로 0~9999초를 설정하고 시작·일시정지·취소에 따라 카운트다운과 모터를 제어합니다. 서보로 문 개폐를 구현하고, 문이 열린 상태에서는 시작을 차단합니다. 조리 완료 시 FND 깜빡임과 부저 알림을 3회 동기화했습니다.',
+    category: 'FPGA / Verilog HDL',
+    tags: ['Verilog', 'FPGA', 'Basys 3', 'PWM', 'Rotary Encoder', 'Servo', 'FND'],
+    fallback: 'fan',
+    github: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller',
+    role: '전체 구현',
+    features: [
+      '입력 동기화·디바운싱과 로터리 방향 판별로 1초 단위 시간 설정',
+      '1ms tick 기반 카운트다운과 일시정지·재개·취소 제어',
+      '문 상태 저장과 서보 PWM 제어, 문 열림 시 조리 정지 및 시작 차단',
+      '조리 상태에 따른 DC 모터 구동과 FND·부저 완료 알림 3회 동기화',
+      '테스트벤치로 시작·일시정지·재개·자연 종료 시나리오 확인'
+    ],
+    diagrams: [{label:"회로도",src:"/images/microwave_diagram.png"}, {label:"테스트벤치",src:"/images/microwave_testbench.png"}],
     resources: [
-      { label: '시계·스톱워치 소스', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Verilog-Projects/tree/main/minsec_stopwatch_project' },
-      { label: '시연 영상', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Verilog-Projects/blob/main/minsec_stopwatch_project/media/demo.mp4' },
-      { label: '발표 자료', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Verilog-Projects/blob/main/minsec_stopwatch_project/docs/minsec-stopwatch.pptx' }
+      { label: 'micro_wave 소스', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller' },
+      { label: '시연 영상', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller/blob/main/media/demo.mp4' },
+      { label: '발표 자료', url: 'https://github.com/AI-System-Semiconductor-SW-Develop/FPGA-Microwave-Controller/blob/main/docs/fpga-microwave-controller.pptx' }
     ]
-  }
+  },
 ];
