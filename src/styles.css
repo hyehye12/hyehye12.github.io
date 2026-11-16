@@ -241,13 +241,19 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offs
 @media(max-width:480px){.profile-grid{grid-template-columns:1fr;max-width:340px}}
 
 /* Motion owns animation; these wrappers keep each line in its fixed place. */
-.hero{min-height:calc(100svh - 85px)}
+.hero{position:relative;min-height:calc(100svh - 85px - 110px)}
 .hero-title-line{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
 .hero-line-content{display:block}
 .hero-underline{position:relative;display:inline-block}
 .hero-underline-stroke{position:absolute;left:0;right:0;bottom:-.07em;height:2px;background:currentColor;transform-origin:left}
 .hero-cta:focus-within{opacity:1!important}
-@media(max-width:700px){.hero{min-height:calc(100svh - 69px)}}
+@media(max-width:700px){.hero{min-height:calc(100svh - 69px - 90px)}}
+/* Short hero + bottom cue: the next section peeks in, so the page reads as scrollable. */
+.hero-scroll-cue{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;background:transparent;border:0;color:#666666;font:inherit;font-size:10px;font-weight:500;letter-spacing:.18em}
+.hero-scroll-cue:hover{color:#111111}
+.hero-scroll-cue:focus-visible{outline:2px solid var(--accent,#a184e8);outline-offset:4px}
+.hero-scroll-arrow{display:block;color:var(--accent,#a184e8)}
+@media(max-height:620px){.hero-scroll-cue{display:none}}
 
 /* White surfaces, black text, lilac details. */
 :root{--accent:#a184e8;--focus:#7653b9}
