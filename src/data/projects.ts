@@ -110,7 +110,7 @@ export const projects: Project[] = [
     summary: '슬레이브 FPGA의 센서 측정과 I2C·UART 전송, Qt 모니터 구현',
     description: '두 대의 Basys3 보드로 온도·습도·거리를 측정하고 표시하는 팀 프로젝트입니다. 슬레이브 보드를 담당해 DHT11과 HC-SR04의 신호를 Verilog로 처리하고, 마스터 보드가 I2C로 측정값을 읽을 수 있도록 구현했습니다. PC에서는 Qt 모니터로 UART 데이터를 받아 측정값과 센서별 오류를 확인할 수 있습니다.',
     category: 'FPGA / RTL', tags: ['Verilog', 'Basys3', 'I2C', 'UART', 'Qt', 'C++'],
-    fallback: 'fpga', github: 'https://github.com/AI-System-Semiconductor-SW-Develop/Basys3-I2C-Sensor-Monitor',
+    fallback: 'fpga', github: 'https://github.com/nooyoh/I2C_Sensor_Monitor',
     role: '슬레이브 RTL 설계 · 센서 연동 · Qt 모니터 · 통합 테스트벤치',
     period: '', team: '',
     features: [
@@ -122,7 +122,6 @@ export const projects: Project[] = [
     diagrams: [{ label: '시스템 구성도', src: '/images/basys3-i2c-system.png' } ,{ label: '테스트벤치', src: '/images/sensor_monitor_testbench.png' }],
     solving: [
       {
-        // TODO: 원인 문장은 타이밍 리포트의 실제 critical path에 맞게 확인 후 수정해 주세요.
         kind: 'issue', title: '100MHz 타이밍 위반 (WNS −1.555ns)',
         problem: '구현 후 타이밍 리포트에서 100MHz 제약 기준 WNS가 −1.555ns로 나와 타이밍을 만족하지 못했습니다.',
         cause: '초음파 Echo 시간을 거리로 바꾸는 계산이 한 클럭 안에 조합 논리로 처리되어 경로 지연이 길었습니다.',
